@@ -1,6 +1,8 @@
 {
   "name": "mesto-with-back",
   "author": "Alex",
+  "description" : "Сайт на React.js для обмена фотографиями из путешествий",
+  "main": "app.js",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,8 +10,8 @@
     "mongoose": "^5.12.2"
   },
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "lint": "npx eslint"
   },
   "devDependencies": {
