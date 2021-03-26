@@ -36,6 +36,7 @@ const createUser = (req, res) => {
 
 const editUser = (req, res) => {
   const { _id } = req.user;
+
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(

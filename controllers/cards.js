@@ -43,7 +43,7 @@ const likeCard = (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-    .orFail(() => res.status(400).send({ message: 'Нет карточки с таким ID' }))
+    .orFail(() => res.status(404).send({ message: 'Нет карточки с таким ID' }))
     .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === 'CastError') {
