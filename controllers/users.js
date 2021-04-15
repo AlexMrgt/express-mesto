@@ -46,9 +46,8 @@ const login = (req, res, next) => {
         .end();
     })
     .catch((err) => {
-      throw new AuthenticationError(err.message);
-    })
-    .catch(next);
+      next(new AuthenticationError(err.message));
+    });
 };
 
 const getUsers = (_, res, next) => {
@@ -106,7 +105,7 @@ const editUserAvatar = (req, res, next) => {
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`);
+        next(new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
       } else {
         next(err);
       }

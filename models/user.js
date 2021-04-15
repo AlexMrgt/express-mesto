@@ -2,14 +2,17 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 
-const customEmailValidator = [validator.isEmail, 'Неверный формат поля {PATH}'];
+const customErrorString = 'Неверный формат поля {PATH}';
+
+const emailValidator = [validator.isEmail, customErrorString];
+const urlValidator = [validator.isURL, customErrorString];
 
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
     unique: true,
-    validate: customEmailValidator,
+    validate: emailValidator,
   },
   password: {
     type: String,
@@ -30,6 +33,7 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
+    validate: urlValidator,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
   },
 });

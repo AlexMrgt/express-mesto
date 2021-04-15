@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
+
+const customErrorString = 'Неверный формат поля {PATH}';
+const urlValidator = [validator.isURL, customErrorString];
 
 const cardSchema = new mongoose.Schema({
 
@@ -10,6 +14,7 @@ const cardSchema = new mongoose.Schema({
   },
   link: {
     type: String,
+    validation: urlValidator,
     required: [true, 'Поле "Ссылка на изображение" обязательно для заполнения'],
   },
   owner: {

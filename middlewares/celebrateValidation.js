@@ -1,4 +1,14 @@
 const { celebrate, Joi } = require('celebrate');
+const validator = require('validator');
+
+const _urlValidator = (value, helpers) => {
+  if (validator.isURL(value)) {
+    return value;
+  }
+  return helpers.message('Невалидный URL');
+};
+
+// /users validation
 
 const registrationValidator = celebrate({
   body: Joi.object().keys({
@@ -6,7 +16,7 @@ const registrationValidator = celebrate({
     password: Joi.string().required().min(8).max(30),
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().uri(),
+    avatar: Joi.string().custom(_urlValidator),
   }),
 });
 
@@ -26,14 +36,18 @@ const editUserValidator = celebrate({
 
 const editAvatarValidator = celebrate({
   body: Joi.object().keys(
-    { avatar: Joi.string().uri() },
+    {
+      avatar: Joi.string().custom(_urlValidator),
+    },
   ),
 });
+
+// /cards validation
 
 const newCardValidator = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().uri(),
+    link: Joi.string().required().custom(_urlValidator),
   }),
 });
 
