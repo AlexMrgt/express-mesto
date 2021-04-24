@@ -52,7 +52,7 @@ app.use(requestLogger);
 app.get('/crash-test', () => {
   setTimeout( () => {
     throw new Error('Server will crash now')
-  })
+  }, 0)
 })
 
 app.post('/signup',
@@ -68,8 +68,6 @@ app.delete('/logout', logOut);
 app.use(auth);
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
-
-
 
 app.use((req, res, next) => {
   next(new NotFoundError('Запрашиваемый ресурс не найден :['));
