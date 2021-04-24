@@ -7,6 +7,8 @@ const BadRequestError = require('../errors/BadRequestError');
 const AuthenticationError = require('../errors/AuthenticationError');
 const NotFoundError = require('../errors/NotFoundError');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 const createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
 
@@ -34,9 +36,10 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        'some-secret-key',
+        NODE_ENV === 'production'? JWT_SECRET : 'very-strong-secret',
         { expiresIn: '7d' },
       );
+
       res.cookie('jwt', token,
         {
           maxAge: 3600000 * 24 * 7,
@@ -49,6 +52,11 @@ const login = (req, res, next) => {
       next(new AuthenticationError(err.message));
     });
 };
+
+const logOut = (req, res, next) => {
+  res.clearCookie("jwt")
+  .end();
+}
 
 const getUsers = (_, res, next) => {
   User.find({})
@@ -114,6 +122,7 @@ const editUserAvatar = (req, res, next) => {
 
 module.exports = {
   login,
+  logOut,
   getUserInfo,
   getUsers,
   getUserById,
