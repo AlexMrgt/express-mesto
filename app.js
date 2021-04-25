@@ -38,18 +38,26 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
     console.log(err);
   });
 
-  const whiteCors = [
-    'https://mesto.practikum.nomoredomains.club',
-    'https://api.mesto.practikum.nomoredomains.club',
-    'http://mesto.practikum.nomoredomains.club',
-    'http://api.mesto.practikum.nomoredomains.club',
-    'http://localhost:3001',
-  ]
+const CORS_WHITELIST = [
+  'https://mesto.practikum.nomoredomains.club',
+  'https://api.mesto.practikum.nomoredomains.club',
+  'http://mesto.practikum.nomoredomains.club',
+  'http://api.mesto.practikum.nomoredomains.club',
+  'http://localhost:3001',];
 
-app.use(cors({
-  origin: whiteCors,
+const corsOption = {
   credentials: true,
-}));
+  origin: function checkCorsList(origin, callback) {
+    if (CORS_WHITELIST.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+app.use(cors(corsOption));
+
+
 
 app.use(requestLogger);
 
