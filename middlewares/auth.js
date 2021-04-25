@@ -8,7 +8,6 @@ module.exports = (req, _, next) => {
     throw new AuthenticationError('Нужна авторизация');
   }
   const token = req.cookies.jwt;
-  console.log(token);
 
   let payload;
 
