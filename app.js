@@ -38,11 +38,13 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
     console.log(err);
   });
 
-const whiteCors = [
-  'http://mesto.practikum.nomoredomains.club',
-  'http://api.mesto.practikum.nomoredomains.club',
-  'http://localhost:3001',
-]
+  const whiteCors = [
+    'https://mesto.practikum.nomoredomains.club',
+    'https://api.mesto.practikum.nomoredomains.club',
+    'http://mesto.practikum.nomoredomains.club',
+    'http://api.mesto.practikum.nomoredomains.club',
+    'http://localhost:3001',
+  ]
 
 app.use(cors({
   origin: whiteCors,
