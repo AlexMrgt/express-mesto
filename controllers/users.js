@@ -36,7 +36,7 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production'? JWT_SECRET : 'very-strong-secret',
+        NODE_ENV === 'production' ? JWT_SECRET : 'very-strong-secret',
         { expiresIn: '7d' },
       );
 
@@ -54,9 +54,10 @@ const login = (req, res, next) => {
 };
 
 const logOut = (req, res, next) => {
-  res.clearCookie("jwt")
-  .end();
-}
+  res.clearCookie('jwt')
+    .end()
+    .catch(next);
+};
 
 const getUsers = (_, res, next) => {
   User.find({})

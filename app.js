@@ -6,7 +6,6 @@ const { errors } = require('celebrate');
 
 require('dotenv').config();
 
-
 const { requestLogger, errorLogger } = require('./middlewares/Logger');
 
 const usersRouter = require('./routes/users');
@@ -43,7 +42,7 @@ const CORS_WHITELIST = [
   'https://api.mesto.practikum.nomoredomains.club',
   'http://mesto.practikum.nomoredomains.club',
   'http://api.mesto.practikum.nomoredomains.club',
-  'http://localhost:3001',];
+  'http://localhost:3001'];
 
 const corsOption = {
   credentials: true,
@@ -57,15 +56,13 @@ const corsOption = {
 };
 app.use(cors(corsOption));
 
-
-
 app.use(requestLogger);
 
 app.get('/crash-test', () => {
-  setTimeout( () => {
-    throw new Error('Server will crash now')
-  }, 0)
-})
+  setTimeout(() => {
+    throw new Error('Server will crash now');
+  }, 0);
+});
 
 app.post('/signup',
   registrationValidator,
@@ -91,12 +88,8 @@ app.use(errors());
 
 app.use((err, _, res, next) => {
   const { statusCode = 500, message } = err;
+  res.status(statusCode).send({ message: statusCode === 500 ? 'Server ERROr' : message });
 
-  if (err.kind === 'ObjectId') {
-    res.status(400).send({ message: 'Неверный формат данных' });
-  } else {
-    res.status(statusCode).send({ message: statusCode === 500 ? 'Server ERROr' : message });
-  }
   next();
 });
 
