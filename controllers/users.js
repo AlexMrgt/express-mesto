@@ -76,8 +76,9 @@ const getUserInfo = (req, res, next) => {
 };
 
 const getUserById = (req, res, next) => {
-  const { id } = req.params;
-  User.findById(id)
+  // TODO: надо будет написать автоматизированные тесты
+  const { userId } = req.params;
+  User.findById(userId)
     .orFail(() => new NotFoundError('Пользователь с таким ID не найден'))
     .then((user) => res.send(user))
     .catch((err) => {
